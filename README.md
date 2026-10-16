@@ -1,5 +1,7 @@
 # docs.ludens
 
+Infraestrutura dos forks: [guia CodePenguinsCorp](team/infra-codepenguins.md).
+
 <p align="center">
   <img src=".github/assets/logo.png" alt="ludens" width="180">
 
