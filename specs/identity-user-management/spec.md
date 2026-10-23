@@ -8,6 +8,12 @@ updated_at: 2026-09-17
 
 # Gestão de conta de usuário
 
+> **Atualização de 23/10/2026:** a navegação e o autoatendimento do comprador
+> estão descritos em [buyer-account.md](buyer-account.md), incluindo as
+> páginas de confirmação, a ação explícita após abrir o link e a política
+> de preservação comercial na exclusão. A listagem administrativa não faz
+> parte dessa fatia.
+>
 > **Nota de reescopo (2026-09-17):** o PO decidiu inverter duas decisões desta
 > spec e trazer uma terceira de `identity-auth`:
 >
