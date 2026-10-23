@@ -5,6 +5,11 @@ created_at: 2026-09-01
 approved_at: 2026-09-01
 ---
 
+> **Implementação vigente:** esta entrega é uma compra demonstrativa sem Pix,
+> gateway, cobrança ou dados bancários. O fluxo implementado está descrito em
+> [`integration.md`](integration.md); ele substitui as decisões de gateway real
+> abaixo para esta versão educativa.
+
 # Pagamento Pix e criação do pedido
 
 ## 1. Visão da feature
