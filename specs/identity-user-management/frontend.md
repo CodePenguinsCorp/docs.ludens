@@ -8,18 +8,12 @@ updated_at: 2026-09-21
 
 # Gestão de conta de usuário — Frontend
 
-> **Nota de plano (2026-09-21):** nenhum código desta feature existe hoje em
-> `web.ludens` — confirmado por auditoria desta sessão (grep por termos de
-> autoatendimento de conta não encontrou nada além do que `identity-auth` já
-> construiu para login/registro/recuperação de senha). Este documento é um
-> **plano de implementação daqui pra frente**, não a descrição de uma feature
-> pronta. Todo código abaixo é planejado — arquitetura e convenções reais de
-> `web.ludens` (aplicadas a este escopo), não trechos existentes. `status:
-> draft` reflete isso; só vira `done` depois que o código for escrito,
-> revisado e mergeado. `logic.md` também segue `draft` (pede nova revisão
-> conjunta de FE/BE desde o reescopo de 2026-09-17), este plano já assume as
-> regras de `logic.md` como fechadas (conforme a própria nota do PO em
-> `spec.md` § 9), mas não substitui essa revisão.
+> **Atualização de 23/10/2026:** o autoatendimento do comprador foi
+> implementado na branch `feat/buyer-account-management`. O estado dessa
+> fatia, os contratos e os testes vivem em [buyer-account.md](buyer-account.md).
+> Os trechos abaixo permanecem como plano histórico e não devem ser copiados
+> sobre o código atual. A listagem administrativa continua fora desta fatia;
+> este plano abrangente não recebe `done` por causa da entrega do comprador.
 
 **Resumo:** estende a feature `account` (já existente, dona de login/registro
 de `identity-auth`) com autoatendimento de conta: editar o próprio nome,

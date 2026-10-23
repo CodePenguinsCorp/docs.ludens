@@ -7,6 +7,12 @@ responsavel: (auditoria retroativa — ver nota abaixo)
 
 # Integration Contract — Gestão de conta de usuário
 
+> **Atualização de 23/10/2026:** os caminhos da tabela são relativos ao
+> prefixo `/api` de `src/app/main.py`. As duas confirmações retornam 204 e
+> `Set-Cookie` removendo `refresh_token` no caminho
+> `/api/identity/authentication`. A interface implementada está em
+> [buyer-account.md](buyer-account.md).
+>
 > **Nota de auditoria (2026-09-21):** contrato escrito depois do código já
 > estar mergeado (mesma situação de `backend.md` desta pasta — ver a nota lá).
 > `status: canônico` porque reflete o código real hoje, não uma proposta —
@@ -131,8 +137,9 @@ formato.
   clicável direto pra API não funciona (métodos errados). Isso é diferente
   do padrão que `identity-auth` documentou pra redefinição de senha (que
   também precisa de página própria, mas por ser um formulário com senha
-  nova, aqui a página não tem formulário nenhum, só dispara a chamada e
-  mostra o resultado).
+  nova, aqui a página pede um clique explícito de confirmação e mostra o
+  resultado). Abrir o link não consome o token. A exclusão também exige
+  ciência da política de preservação do histórico.
 * **Confirmar troca de e-mail ou exclusão derruba a sessão atual também.**
   Depois de um 204 em qualquer uma das duas rotas de confirmação, qualquer
   chamada autenticada seguinte (mesmo na mesma aba que só pediu, não abriu o

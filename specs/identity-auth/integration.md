@@ -47,8 +47,9 @@ sentido. Ver `specs/identity-user-management/` para o restante do contrato de
 usuário (perfil, troca de e-mail, exclusão de conta, listagem admin).
 
 > Prefixo/base path e versionamento: **sem versionamento no N1** — as rotas do
-> módulo `identity` são montadas sob `/identity/...` na raiz; base =
-> `NEXT_PUBLIC_API_URL` no frontend. Decisão registrada ao gerar
+> módulo `identity` são montadas sob `/api/identity/...`; a tabela usa caminhos
+> relativos a `/api`. A origem é `NEXT_PUBLIC_API_URL` no modo direto ou o
+> próprio frontend no modo proxy (`API_PROXY_URL`). Decisão registrada ao gerar
 > `backend.md`/`frontend.md`; revisitar se uma convenção global for adotada
 > (`docs.ludens/backend/integration/_template.md`).
 
@@ -61,13 +62,15 @@ campo `role`: permissão é o booleano `is_admin` (`true`/`false`), tanto no
 
 - `POST /identity/users` → body `{ name, cpf, email, password }` (CPF
   sem máscara, só dígitos; `password` ≥ 8). 201 → `{ access_token, expires_in }`
-  - `Set-Cookie: refresh_token=...` (`HttpOnly; Secure; SameSite=Strict; Path=/identity`;
-  `Secure` desligado quando `ENVIRONMENT=development`).
+  - `Set-Cookie: refresh_token=...` com `HttpOnly` e
+    `Path=/api/identity/authentication`. `Secure` segue `REFRESH_COOKIE_SECURE`
+    quando definido; por padrão é desligado em development. `SameSite=None`
+    com Secure e `Lax` sem Secure.
 - `POST /identity/authentication/login` → `{ email, password }` → 200 mesmo shape + `Set-Cookie`.
 - `POST /identity/authentication/refresh` → sem body; lê o cookie → 200 `{ access_token, expires_in }`,
   mais um novo `Set-Cookie` de refresh (rotação).
 - `POST /identity/authentication/logout` → Bearer, sem body → 204 + `Set-Cookie` **apagando**
-  `refresh_token` (`Path=/identity`).
+  `refresh_token` (`Path=/api/identity/authentication`).
 - `POST /identity/authentication/password/change` → Bearer → `{ current_password, new_password }`
   (`new_password` ≥ 8) → 204.
 - `GET /identity/users/{id}` → 200 `{ id, name, email, cpf, is_admin }`.
@@ -106,7 +109,7 @@ campo `role`: permissão é o booleano `is_admin` (`true`/`false`), tanto no
 
 - Access token: JWT HS256, `Authorization: Bearer`, expira em 30 min, claims
   `sub`, `is_admin`, `security_stamp`, `type=access`, `exp`, `iat`.
-- Refresh token: opaco, cookie `HttpOnly; Secure; SameSite=Strict; Path=/identity`,
+- Refresh token: opaco, cookie com os atributos descritos acima,
   7 dias, rotacionado a cada `refresh`. Reuso detectado → `security_stamp`
   regenerado (derruba tudo).
 - Qualquer token cujo `security_stamp` não bate o do comprador → 401. Logout,
@@ -125,7 +128,7 @@ limpa o estado e manda para `/login`. Mensagens conforme a tabela de erros.
     422 de validação, mensagem única `{ detail: string }` para erro de
     domínio.
   - **Prefixo / versionamento:** nenhum versionamento no N1; rotas do módulo
-    `identity` montadas sob `/identity/...`.
+    `identity` montadas sob `/api/identity/...`.
   - **Casing:** contrato inteiro em snake_case, sem exceção. **`expires_in`:**
     segundos. Sem campo `role`: permissão é o booleano `is_admin`.
   - **`/identity/authentication/password/change`:** corpo `{ current_password, new_password }`.
@@ -134,9 +137,9 @@ limpa o estado e manda para `/login`. Mensagens conforme a tabela de erros.
     /identity/users` (cadastro), `GET /identity/users/{id}`
     (substitui `/auth/me`, restrito por papel). Listagem paginada existe em
     `GET /identity/users` (admin) — ver `identity-user-management`.
-- **Frontend ainda não atualizado:** `web.ludens` foi construído contra o
-  contrato antigo (`/auth/...`, `/users/...`). Ver
-  [`team/overview.md`](../../team/overview.md#débitos-conhecidos-hoje) para o
-  débito técnico registrado.
+- **Frontend alinhado:** `src/routes/endpoints.ts` utiliza os caminhos
+  `/api/identity/authentication/...` e `/api/identity/users/...`.
+  A [fatia da conta do comprador](../identity-user-management/buyer-account.md)
+  documenta navegação, preservação de destino e encerramento das sessões.
 - Se uma convenção global de prefixo/versionamento/erro for adotada depois, ela
   substitui o que está aqui.

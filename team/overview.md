@@ -118,30 +118,17 @@ planejamento) os débitos que afetam:
 
 ### Débitos conhecidos hoje
 
-* **`web.ludens` desalinhado com o contrato de `identity-auth`.**
-  Origem: correções de 2026-09-17 no `api.ludens`, que migraram as rotas do
-  módulo `identity` de `/auth/...` e `/users/...` para `/identity/...` e
-  `/identity/users/...`.
-  Impacto: alto. Login, cadastro, refresh e demais chamadas de auth do
-  frontend quebram contra o backend atual, pois `web.ludens` ainda chama os
-  caminhos antigos.
-  Proposta: revisar `web.ludens` contra o contrato canônico atualizado e
-  ajustar `src/routes/endpoints.ts` (e o cookie `Path` do refresh token)
-  para os novos caminhos antes do próximo deploy conjunto.
-* **`web.ludens` sem páginas para os links de confirmação por e-mail de
-  `identity-user-management`.**
-  Origem: `api.ludens#34`. O backend já envia e-mail de verdade (ACS/Mailpit)
-  com links para `/confirmar-troca-de-email?token=...` e
-  `/confirmar-exclusao-de-conta?token=...`, mas essas rotas de frontend não
-  existem.
-  Impacto: alto. Sem a página, quem clica no link não consegue confirmar a
-  troca de e-mail nem a exclusão de conta; os fluxos ficam inacessíveis na
-  prática.
-  Proposta: criar as duas páginas em `web.ludens`. Elas recebem `token` via
-  query string no `GET` e chamam, via JS, `PATCH`/`DELETE` no backend (mesmo
-  padrão de `/redefinir-senha`).
+As rotas de autenticação já estão alinhadas sob `/api/identity`; o débito
+anterior de prefixos não está aberto no código atual.
 
-Itens já resolvidos nesta preparação:
+A branch `feat/buyer-account-management` implementa a navegação, o
+autoatendimento e as páginas de confirmação antes ausentes. Contratos,
+política de preservação e testes estão em
+[conta do comprador](../specs/identity-user-management/buyer-account.md).
+A publicação dessa fatia depende de integração e aceite; sua implementação
+não entrega reservas, pagamento nem listagem administrativa de usuários.
+
+Registro histórico da preparação pela equipe anterior:
 
 * **CODEOWNERS / handles desatualizados na separação de repos.** Origem:
   migração do monorepo. Resolução: `CODEOWNERS` recriado em `api.ludens`
