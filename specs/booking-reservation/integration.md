@@ -11,6 +11,7 @@ o cliente não informa CPF ou usuário no payload.
 | GET | `/api/booking/reservations/{id}` | Detalhes da própria reserva |
 | POST | `/api/booking/reservations/{id}/cancel` | Cancela uma reserva aberta; repetir é idempotente |
 | GET | `/api/booking/reservations/{id}/rebooking-options` | Lista outras sessões futuras disponíveis do mesmo espetáculo, da mais próxima à mais distante |
+| POST | `/api/booking/reservations/{id}/checkout` | Cria ou retoma o pedido demonstrativo ligado à reserva |
 
 Criação:
 
@@ -65,7 +66,8 @@ Cancelar ou excluir uma sessão cancela suas reservas abertas na mesma transaç�
 
 `/sessoes/{id}` contém seleção e subtotais. A seleção e a chave da tentativa
 ficam no armazenamento local para sobreviver ao login e ao fechamento da página.
-`/checkout/{id}` recupera a reserva persistida. `/minhas-reservas` lista o
+`/checkout/{id}` recupera a reserva persistida e inicia/retoma o pedido
+demonstrativo. `/minhas-reservas` lista o
 histórico, com detalhes, contador e acesso ao cancelamento. O contador usa a
 hora retornada pelo servidor e reconsulta a API ao zerar.
 
