@@ -1,5 +1,7 @@
 # docs.ludens
 
+Uso sem Azure: [API local com frontend Vercel](team/local-api-vercel.md).
+
 Infraestrutura dos forks: [guia CodePenguinsCorp](team/infra-codepenguins.md).
 
 <p align="center">
